@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState , useEffect} from 'react';
-import { StyleSheet, Text, View, Button, Switch, TextInput, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, Button, Switch, TextInput, ToastAndroid, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [wins,SetWins] = useState(0);
@@ -11,7 +11,7 @@ export default function App() {
 
   async function addWins() {
     var baseURL = "http://192.168.178.66:8080/roll/flip?";
-    if(thumbs > 0 && thumbs <5){
+    if(thumbs > 0 && !untillStop){
       baseURL = baseURL + "thumbs=" + thumbs + "&";
     }else if(thumbs >=5){
       ToastAndroid.show("Please use less than 5 thumbs,\nat 5 the api might work forever", ToastAndroid.LONG);
@@ -43,16 +43,23 @@ export default function App() {
         onValueChange={toggleSwitch}
         value={untillStop}
       ></Switch>
-      <Button 
-        title= {"Flip"} 
-        onPress={addWins}>
-      </Button>
+      <TouchableOpacity 
+        style={styles.styleButton}
+        title={"Flip"}
+        onPress={addWins}><Text style={{margin:10}}>Flip</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  styleButton:{
+    height:40,
+    width:200, 
+    backgroundColor:"#77C3EC", 
+    alignItems:"center"
+  },
   styleTitleText:{
     paddingTop:50,
     fontSize: 60,
@@ -74,5 +81,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    color:'#000',
   },
 });
