@@ -11,10 +11,12 @@ export default function App() {
 
   async function addWins() {
     var baseURL = "http://192.168.178.66:8080/roll/flip?";
-    if(thumbs > 0 && !untillStop){
+    if(thumbs > 0 && thumbs < 5 && untillStop){
       baseURL = baseURL + "thumbs=" + thumbs + "&";
-    }else if(thumbs >=5){
+    }else if(thumbs >=5 && untillStop){
       ToastAndroid.show("Please use less than 5 thumbs,\nat 5 the api might work forever", ToastAndroid.LONG);
+    }else if(!untillStop){
+      baseURL = baseURL + "thumbs=" + thumbs + "&";
     }
     if(untillStop){
       baseURL = baseURL + "untill_loss=1&";
