@@ -6,8 +6,17 @@ export default function App() {
   const [wins,SetWins] = useState(0);
   const [thumbs,SetThumbs] = useState(0);
   const [untillStop,SetUntillStop] = useState(false);
+  const [repeat,SetRepeat] = useState(1);
 
-  const toggleSwitch = () => (SetUntillStop(!untillStop));
+  const toggleSwitch = () => {
+    SetUntillStop(!untillStop);
+    if(!untillStop){
+      SetRepeat(Infinity);
+      ToastAndroid.show("Infinity means untill you loose in this case", ToastAndroid.LONG);
+    }else{
+      SetRepeat(1);
+    }
+  };
 
   async function addWins() {
     var baseURL = "http://192.168.178.66:8080/roll/flip?";
@@ -20,6 +29,8 @@ export default function App() {
     }
     if(untillStop){
       baseURL = baseURL + "untill_loss=1&";
+    }else if(repeat > 0 && repeat != Infinity){
+      baseURL = baseURL + "repeat=" + repeat;
     }
     const responce = await fetch(baseURL);
     const json = await responce.json();
@@ -36,15 +47,23 @@ export default function App() {
         value={thumbs}
         keyboardType="numeric"
       ></TextInput>
-      <Text  style={{paddingTop:30}}>{"Untill loss: " + untillStop}</Text>
-      <Switch
-        style={{paddingBottom:30}}
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={untillStop ? "#f5dd4b" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={untillStop}
-      ></Switch>
+      <Text  style={{paddingTop:30}}>{"Repeat " + repeat + " times"}</Text>
+      <View style={styles.rowContainer}>
+        <TextInput
+          style={styles.styleInput}
+          onChangeText={SetRepeat}
+          value={repeat}
+          keyboardType="numeric"
+        ></TextInput>
+        <Switch
+          style={{paddingBottom:30}}
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={untillStop ? "#f5dd4b" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={untillStop}
+        ></Switch>
+      </View>
       <TouchableOpacity 
         style={styles.styleButton}
         title={"Flip"}
@@ -84,5 +103,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     color:'#000',
+  },
+  rowContainer: {
+    flexDirection: 'row',
   },
 });
