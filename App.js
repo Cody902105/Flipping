@@ -12,7 +12,7 @@ export default function App() {
     SetUntillStop(!untillStop);
     if(!untillStop){
       SetRepeat(Infinity);
-      ToastAndroid.show("Infinity means untill you loose in this case", ToastAndroid.LONG);
+      ToastAndroid.show("Infinity means untill you loose in this case,\nInfinity always overides repeats", ToastAndroid.LONG);
     }else{
       SetRepeat(1);
     }
