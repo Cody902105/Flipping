@@ -45,7 +45,7 @@ export default function App() {
         style={styles.styleInput}
         onChangeText={SetThumbs}
         value={thumbs}
-        keyboardType="numeric"
+        keyboardType="phone-pad"
       ></TextInput>
       <Text  style={{paddingTop:30}}>{"Repeat " + repeat + " times"}</Text>
       <View style={styles.rowContainer}>
@@ -53,7 +53,7 @@ export default function App() {
           style={styles.styleInput}
           onChangeText={SetRepeat}
           value={repeat}
-          keyboardType="numeric"
+          keyboardType="phone-pad"
         ></TextInput>
         <Switch
           style={{paddingBottom:30}}
